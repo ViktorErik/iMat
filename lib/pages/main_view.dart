@@ -145,14 +145,14 @@ class MainView extends StatelessWidget {
                   //print('Favoriter');
                   iMat.selectFavorites();
                 },
-                child: Text('⭐Favoriter', style: AppTheme.textTheme.headlineMedium,),
+                child: Text('⭐ Favoriter', style: AppTheme.textTheme.headlineMedium,),
               ),
               ElevatedButton(
                 onPressed: () {
                   dbugPrint('Historik-knapp');
                   _showHistory(context);
                 },
-                child: Text('⌛Historik', style: AppTheme.textTheme.headlineMedium,),
+                child: Text('⌛ Historik', style: AppTheme.textTheme.headlineMedium,),
               ),
             ],
           ),
@@ -164,7 +164,7 @@ class MainView extends StatelessWidget {
                 onPressed: () {
                   _showAccount(context);
                 },
-                child: Text('🧍Användare', style: AppTheme.textTheme.headlineMedium),
+                child: Text('🧍 Användare', style: AppTheme.textTheme.headlineMedium),
               ),
             ],
           ),
@@ -176,8 +176,15 @@ class MainView extends StatelessWidget {
   Widget _centerStage(BuildContext context, List<Product> products) {
     // ListView.builder has the advantage that tiles
     // are built as needed.
-    return ListView.builder(
+    return GridView.builder(
+      padding: const EdgeInsets.all(AppTheme.paddingSmall),
       itemCount: products.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        crossAxisSpacing: AppTheme.paddingMedium,
+        mainAxisSpacing:  AppTheme.paddingMedium,
+        childAspectRatio: 0.7,
+      ),
       itemBuilder: (BuildContext context, int index) {
         return ProductTile(products[index]);
       },

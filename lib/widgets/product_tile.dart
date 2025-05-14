@@ -1,3 +1,4 @@
+import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/product.dart';
 import 'package:api_test/model/imat/product_detail.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
@@ -14,23 +15,50 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var iMat = Provider.of<ImatDataHandler>(context, listen: false);
+    var isFavorite = iMat.isFavorite(product);
+    ProductDetail? detail = iMat.getDetail(product);
 
     return Card(
-      child: ListTile(
-        leading: iMat.getImage(product),
-        title: Text(product.name),
-        subtitle: Text(
-          '${product.price} ${product.unit} ${_brand(product, context)}',
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(AppTheme.paddingSmall),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _favoriteButton(product, context),
-            SizedBox(width: 8),
-            BuyButton(
-              onPressed: () {
-                iMat.shoppingCartAdd(ShoppingItem(product));
-              },
+            Expanded(child: iMat.getImage(product)),
+            Text(
+              product.name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              '${product.price} ${product.unit}',
+              style: TextStyle(color: Colors.grey[700], fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
+            if (detail?.brand != null)
+              Text(
+                detail!.brand,
+                style: TextStyle(color: Colors.grey[500], fontSize: 11),
+                textAlign: TextAlign.center,
+              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    isFavorite ? Icons.star : Icons.star_border,
+                    color: Colors.orange,
+                    size: 20,
+                  ),
+                  onPressed: () => iMat.toggleFavorite(product),
+                ),
+                BuyButton(
+                  onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
+                  size: 20,
+                ),
+              ],
             ),
           ],
         ),
