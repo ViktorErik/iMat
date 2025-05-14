@@ -9,13 +9,57 @@ import 'package:api_test/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+class SearchWidget extends StatefulWidget{
+  @override
+  _SearchWidgetState createState() => _SearchWidgetState();
+}
+
+class _SearchWidgetState extends State<SearchWidget> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context){
+    var iMat = context.watch<ImatDataHandler>();
+    return TextFormField(
+      controller: _searchController,
+      onFieldSubmitted: (value){
+        iMat.selectSelection(iMat.findProducts(_searchController.text));
+        
+      },
+      decoration: InputDecoration(
+        hintText: 'Sök efter vara',
+        suffixIcon: IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            //sök-funktion
+            iMat.selectSelection(iMat.findProducts(_searchController.text));
+          },
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(36),
+        ),
+        contentPadding: EdgeInsets.fromLTRB(18, 0, 0, 0)
+      ),
+    );
+  }
+  
+
+  
+
+}
 class MainView extends StatelessWidget {
   const MainView({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
     var products = iMat.selectProducts;
+    
 
     return Scaffold(
       
@@ -38,29 +82,16 @@ class MainView extends StatelessWidget {
                         child:
                         SizedBox( width: 300,  
                           child: 
-                            TextFormField(
-                              decoration: InputDecoration(
-                                hintText: 'Sök efter vara',
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.search),
-                                  onPressed: () {
-                                    //sök-funktion
-                                  },
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(36),
-                                ),
-                                contentPadding: EdgeInsets.fromLTRB(18, 0, 0, 0)
-                              ),
-                            ),
+                            SearchWidget()
                         ),
                       ),
+                      SizedBox(height: AppTheme.paddingTiny),
                       Container(
                         //width: 580,
-                        height: 400,
+                        height: 593,
                         child: _centerStage(context, products),
                       ),
-                      SizedBox(height: AppTheme.paddingTiny),
+                      
                     ]
                   )
                 ),
@@ -182,6 +213,7 @@ class MainView extends StatelessWidget {
                   ]
                 )
               ),
+              SizedBox(width: AppTheme.paddingMedium),
               ElevatedButton(//history-knapp
                 onPressed: () {
                   dbugPrint('Historik-knapp');
@@ -189,7 +221,7 @@ class MainView extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    Icon(Icons.hourglass_empty, size: AppTheme.textTheme.headlineMedium!.fontSize,),
+                    Icon(Icons.hourglass_full, size: AppTheme.textTheme.headlineMedium!.fontSize,),
                     Text('Historik', style: AppTheme.textTheme.headlineMedium),
                   ]
                 )
@@ -204,8 +236,14 @@ class MainView extends StatelessWidget {
                 onPressed: () {
                   _showAccount(context);
                 },
-                child: Text('🧍Användare', style: AppTheme.textTheme.headlineMedium),
+                child: Row(
+                  children: [
+                    Icon(Icons.elderly_woman, size: AppTheme.textTheme.headlineMedium!.fontSize,),
+                    Text('Användare', style: AppTheme.textTheme.headlineMedium),
+                  ]
+                )
               ),
+              SizedBox(width: AppTheme.paddingSmall,)
             ],
           ),
         ],
@@ -216,8 +254,15 @@ class MainView extends StatelessWidget {
   Widget _centerStage(BuildContext context, List<Product> products) {
     // ListView.builder has the advantage that tiles
     // are built as needed.
-    return ListView.builder(
+    return GridView.builder(
+      padding: const EdgeInsets.fromLTRB(AppTheme.paddingMedium, 0, AppTheme.paddingSmall,AppTheme.paddingSmall),
       itemCount: products.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        crossAxisSpacing: AppTheme.paddingMedium,
+        mainAxisSpacing:  AppTheme.paddingMedium,
+        childAspectRatio: 0.7,
+      ),
       itemBuilder: (BuildContext context, int index) {
         return ProductTile(products[index]);
       },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BuyButton extends StatelessWidget {
-  const BuyButton({required this.onPressed, super.key});
+  const BuyButton({required this.onPressed, super.key, required int size});
 
   final void Function() onPressed;
 

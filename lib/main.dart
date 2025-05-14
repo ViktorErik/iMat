@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'iMat Demo',
       theme: ThemeData(colorScheme: AppTheme.colorScheme),
       home: const MainView(),
