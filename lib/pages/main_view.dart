@@ -24,16 +24,45 @@ class MainView extends StatelessWidget {
           
           // SizedBox(height: AppTheme.paddingLarge),
           _header(context, iMat),
-          SizedBox(height: AppTheme.paddingMedium),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _leftPanel(iMat),
-                Container(
-                  width: 580,
-                  //height: 400,
-                  child: _centerStage(context, products),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children:[
+                      SizedBox(height: AppTheme.paddingTiny),
+                      Align(alignment: Alignment.center,
+                        child:
+                        SizedBox( width: 300,  
+                          child: 
+                            TextFormField(
+                              decoration: InputDecoration(
+                                hintText: 'Sök efter vara',
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.search),
+                                  onPressed: () {
+                                    //sök-funktion
+                                  },
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(36),
+                                ),
+                                contentPadding: EdgeInsets.fromLTRB(18, 0, 0, 0)
+                              ),
+                            ),
+                        ),
+                      ),
+                      Container(
+                        //width: 580,
+                        height: 400,
+                        child: _centerStage(context, products),
+                      ),
+                      SizedBox(height: AppTheme.paddingTiny),
+                    ]
+                  )
                 ),
                 Container(
                   width: 300,
@@ -140,19 +169,30 @@ class MainView extends StatelessWidget {
 
           Row(
             children: [
-              ElevatedButton(
+              ElevatedButton(//favorit-knapp
                 onPressed: () {
                   //print('Favoriter');
                   iMat.selectFavorites();
                 },
-                child: Text('⭐Favoriter', style: AppTheme.textTheme.headlineMedium,),
+                
+                child: Row(
+                  children: [
+                    Icon(Icons.star, size: AppTheme.textTheme.headlineMedium!.fontSize,),
+                    Text('Favoriter', style: AppTheme.textTheme.headlineMedium),
+                  ]
+                )
               ),
-              ElevatedButton(
+              ElevatedButton(//history-knapp
                 onPressed: () {
                   dbugPrint('Historik-knapp');
                   _showHistory(context);
                 },
-                child: Text('⌛Historik', style: AppTheme.textTheme.headlineMedium,),
+                child: Row(
+                  children: [
+                    Icon(Icons.hourglass_empty, size: AppTheme.textTheme.headlineMedium!.fontSize,),
+                    Text('Historik', style: AppTheme.textTheme.headlineMedium),
+                  ]
+                )
               ),
             ],
           ),
@@ -160,7 +200,7 @@ class MainView extends StatelessWidget {
           Row(
             children: [
               
-              ElevatedButton(
+              ElevatedButton(//användare-knapp
                 onPressed: () {
                   _showAccount(context);
                 },
