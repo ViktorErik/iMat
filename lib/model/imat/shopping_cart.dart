@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:api_test/model/imat/product.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
 
 class ShoppingCart {
@@ -75,6 +78,14 @@ class ShoppingCart {
     }
   }
 
+  bool itemIsInCart(Product prod){
+    for(ShoppingItem item in items){
+      if(item.product==prod){
+        return true;
+      }
+    }
+    return false;
+  }
   void removeItem(ShoppingItem sci) {
     int pId = sci.product.productId;
     List<ShoppingItem> toRemove = [];
@@ -86,6 +97,12 @@ class ShoppingCart {
     }
     for (ShoppingItem item in toRemove) {
       items.remove(item);
+    }
+  }
+
+  void removeOneItem(ShoppingItem sci){
+    if(sci.amount!=0){
+      updateItem(sci, delta:-1);
     }
   }
 

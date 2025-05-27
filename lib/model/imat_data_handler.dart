@@ -68,8 +68,15 @@ class ImatDataHandler extends ChangeNotifier {
   // Returnerar alla produkter som hör till category.
   // Med denna och setSelection kan man sätta urvalet till en viss kategori.
   // Meddelar GUI:t att urvalet har ändrats.
-  List<Product> findProductsByCategory(ProductCategory category) {
-    return products.where((product) => product.category == category).toList();
+  List<Product> findProductsByCategory(List<ProductCategory> categories) {
+    List<Product> selectedProducts = [];
+    for (ProductCategory category in categories){
+      List<Product> current = (products.where((product) => product.category == category).toList());
+      for(Product i in current){
+        selectedProducts.add(i);
+      }
+     }
+    return selectedProducts;
   }
 
   // Returnerar en lista med alla produkter vars namn matchar search.
@@ -288,6 +295,12 @@ class ImatDataHandler extends ChangeNotifier {
     _shoppingCart.removeItem(item);
 
     // Update and notify listeners
+    setShoppingCart();
+  }
+
+  void shoppingCartRemove1(ShoppingItem item){
+    _shoppingCart.removeOneItem(item);
+
     setShoppingCart();
   }
 

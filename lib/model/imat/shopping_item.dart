@@ -8,8 +8,8 @@ class ShoppingItem {
 
   double get total => product.price * amount;
 
-  ShoppingItem.fromJson(Map<String, dynamic> json)
-    : product = Product.fromJson(json[_product]),
+  ShoppingItem.fromJson(Map<String, dynamic> json): 
+      product = Product.fromJson(json[_product]),
       amount = json[_amount];
 
   Map<String, dynamic> toJson() => {

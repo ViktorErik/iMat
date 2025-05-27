@@ -1,9 +1,11 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/product.dart';
 import 'package:api_test/model/imat/product_detail.dart';
+import 'package:api_test/model/imat/shopping_cart.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/widgets/buy_button.dart';
+import 'package:api_test/widgets/minus_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +28,23 @@ class ProductTile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Expanded(child: iMat.getImage(product)),
+            Stack(alignment: Alignment.topRight,
+              children:[
+              Expanded(child: 
+                    iMat.getImage(product)),
+              IconButton(
+              icon: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                color: Colors.orange,
+                size: 30,
+                ),
+                onPressed: () => iMat.toggleFavorite(product),
+              ),
+            ]),
             Text(
               product.name,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              
+              style:AppTheme.textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
             Text(
@@ -45,19 +60,28 @@ class ProductTile extends StatelessWidget {
               ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              
               children: [
-                IconButton(
-                  icon: Icon(
-                    isFavorite ? Icons.star : Icons.star_border,
-                    color: Colors.orange,
-                    size: 20,
+                if(iMat.getShoppingCart().itemIsInCart(product))
+                  Row(
+                    children:[
+                      MinusButton(
+                        onPressed: () => iMat.shoppingCartRemove1(ShoppingItem(product)),
+                        size: 20,
+                      ),
+                      BuyButton(
+                        onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
+                        size: 20,
+                      ),
+                    ]
                   ),
-                  onPressed: () => iMat.toggleFavorite(product),
-                ),
-                BuyButton(
-                  onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
-                  size: 20,
-                ),
+                if(!iMat.getShoppingCart().itemIsInCart(product))
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(minimumSize:Size(0, 48), backgroundColor: Colors.white),
+                    onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
+                    child:Text("Lägg till")
+
+                  ),
               ],
             ),
           ],

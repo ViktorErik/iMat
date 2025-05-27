@@ -25,26 +25,35 @@ class _SearchWidgetState extends State<SearchWidget> {
   @override
   Widget build(BuildContext context){
     var iMat = context.watch<ImatDataHandler>();
-    return TextFormField(
-      controller: _searchController,
-      onFieldSubmitted: (value){
-        iMat.selectSelection(iMat.findProducts(_searchController.text));
-        
-      },
-      decoration: InputDecoration(
-        hintText: 'Sök efter vara',
-        suffixIcon: IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            //sök-funktion
-            iMat.selectSelection(iMat.findProducts(_searchController.text));
-          },
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(36),
-        ),
-        contentPadding: EdgeInsets.fromLTRB(18, 0, 0, 0)
+    return SizedBox(
+      width: 500,
+      child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(36),
       ),
+      child: TextFormField(
+        controller: _searchController,
+        onFieldSubmitted: (value){
+          iMat.selectSelection(iMat.findProducts(_searchController.text));
+          
+        },
+        decoration: InputDecoration(
+          hintText: 'Sök efter vara',
+          suffixIcon: IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              //sök-funktion
+              iMat.selectSelection(iMat.findProducts(_searchController.text));
+            },
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(36),
+          ),
+          contentPadding: EdgeInsets.fromLTRB(18, 0, 0, 0)
+        ),
+      ),
+    ),
     );
   }
   
@@ -77,14 +86,15 @@ class MainView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:[
+                      /*
                       SizedBox(height: AppTheme.paddingTiny),
                       Align(alignment: Alignment.center,
                         child:
-                        SizedBox( width: 300,  
+                        SizedBox( width: 500,  
                           child: 
                             SearchWidget()
                         ),
-                      ),
+                      ),*/
                       SizedBox(height: AppTheme.paddingTiny),
                       Container(
                         //width: 580,
@@ -109,17 +119,20 @@ class MainView extends StatelessWidget {
   }
 
   Widget _shoppingCart(ImatDataHandler iMat) {
-    return Column(
-      children: [
-        Text('Kundvagn'),
-        Container(height: 400, child: CartView()),
-        ElevatedButton(
-          onPressed: () {
-            iMat.placeOrder();
-          },
-          child: Text('Köp!'),
-        ),
-      ],
+    return Container(color: Color.fromARGB(100, 205, 195, 183),
+      child:
+        Column(
+        children: [
+          Text(style:AppTheme.textTheme.headlineMedium,'Kundvagn'),
+          Container(height: 400, child: CartView()),
+          ElevatedButton(
+            onPressed: () {
+              iMat.placeOrder();
+            },
+            child: Text('Köp!'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -165,7 +178,7 @@ class MainView extends StatelessWidget {
               onPressed: () {
                 //print('Frukt');
                 iMat.selectSelection(
-                  iMat.findProductsByCategory(ProductCategory.CABBAGE),
+                  iMat.findProductsByCategory([ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT])
                 );
               },
               child: Text('Grönsaker'),
@@ -196,11 +209,12 @@ class MainView extends StatelessWidget {
         children: [
           // ElevatedButton(onPressed: () {}, child: Text('iMat')),
           // Image(image: AssetImage("assets/images/iMat.png")),
-          Image.asset('assets/images/imat.png'),
-
           Row(
             children: [
+              Image.asset('assets/images/imat.png'),
               ElevatedButton(//favorit-knapp
+              style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
+              backgroundColor: Colors.white),
                 onPressed: () {
                   //print('Favoriter');
                   iMat.selectFavorites();
@@ -215,6 +229,8 @@ class MainView extends StatelessWidget {
               ),
               SizedBox(width: AppTheme.paddingMedium),
               ElevatedButton(//history-knapp
+              style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
+              backgroundColor: Colors.white),
                 onPressed: () {
                   dbugPrint('Historik-knapp');
                   _showHistory(context);
@@ -226,6 +242,8 @@ class MainView extends StatelessWidget {
                   ]
                 )
               ),
+              SizedBox(width: AppTheme.paddingMedium),
+              SearchWidget(),
             ],
           ),
   
@@ -233,6 +251,8 @@ class MainView extends StatelessWidget {
             children: [
               
               ElevatedButton(//användare-knapp
+              style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
+              backgroundColor: Colors.white),
                 onPressed: () {
                   _showAccount(context);
                 },
