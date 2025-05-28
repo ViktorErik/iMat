@@ -265,6 +265,7 @@ class ImatDataHandler extends ChangeNotifier {
   // att ändringarna ska sparas.
   ShoppingCart getShoppingCart() => _shoppingCart;
 
+  
   // Lägger till item i kundvagnen. Om den produkt som ingår i item redan finns
   // i kundvagnen så ökas mängden på det som fanns redan.
   // Uppdaterar till servern och meddelar GUI:t att kundvagnen ändrats.

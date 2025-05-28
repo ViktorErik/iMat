@@ -299,12 +299,20 @@ class ProductView extends StatelessWidget {
         Expanded(
           flex: 6,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.all(16), // Padding runt bilden
-                child: iMat.getImage(product),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Tillbaka'),
+              ),
+              Center(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                child:
+                Padding(
+                  padding: EdgeInsets.all(16), // Padding runt bilden
+                  child: iMat.getImage(product),
+                ),
               ),
             ],
           ),
@@ -330,19 +338,24 @@ class ProductView extends StatelessWidget {
                 Text(details!.description, style: AppTheme.textTheme.bodyLarge),
                 Text("${product.price}${product.unit}", style: AppTheme.textTheme.labelLarge),
                 if(iMat.getShoppingCart().itemIsInCart(product))
-                  Row(
+                  Container(width: 110, decoration:  BoxDecoration(borderRadius: BorderRadius.circular(20), color: AppTheme.colorScheme.primary,),
+                    
+                    child:Row(
                     children:[
                       MinusButton(
                         onPressed: () => iMat.shoppingCartRemove1(ShoppingItem(product)),
                         size: 20,
                       ),
-                      Text("${iMat.getShoppingCart().getAmountInCart(product)}"),
+                      Container(width: 30, height: 30, alignment: Alignment.center ,decoration:BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white), 
+                        child:
+                        Text("${iMat.getShoppingCart().getAmountInCart(product)}"),
+                      ),
                       BuyButton(
                         onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
                         size: 20,
                       ),
                     ]
-                  ),
+                  ),),
                 if(!iMat.getShoppingCart().itemIsInCart(product))
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(minimumSize:Size(0, 48), backgroundColor: Colors.white),

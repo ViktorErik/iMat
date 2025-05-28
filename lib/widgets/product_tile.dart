@@ -22,71 +22,106 @@ class ProductTile extends StatelessWidget {
     var isFavorite = iMat.isFavorite(product);
     ProductDetail? detail = iMat.getDetail(product);
 
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 4,
-      child: Padding(
-        padding: const EdgeInsets.all(AppTheme.paddingSmall),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Stack(alignment: Alignment.topRight,
-              children:[
-              Expanded(child: 
-                    iMat.getImage(product)),
-              IconButton(
-              icon: Icon(
-                isFavorite ? Icons.star : Icons.star_border,
-                color: Colors.orange,
-                size: 30,
-                ),
-                onPressed: () => iMat.toggleFavorite(product),
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: () => _showProduct(context, product), // Klick på hela kortet
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 4,
+        child: Padding(
+          padding: const EdgeInsets.all(AppTheme.paddingSmall),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  // Bild måste kapslas om om den inte redan är begränsad i storlek
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0), // valfri justering
+                    child: iMat.getImage(product),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.star : Icons.star_border,
+                      color: Colors.orange,
+                      size: 30,
+                    ),
+                    onPressed: () => iMat.toggleFavorite(product),
+                  ),
+                ],
               ),
-            ]),
-            ClickableText(
-              text:product.name,
-              onTap:() => _showProduct(context, product),
-              
-            ),
-            Text(
-              '${product.price} ${product.unit}',
-              style: TextStyle(color: Colors.grey[700], fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-            if (detail?.brand != null)
+
+              // Här ersätter vi ClickableText med vanlig Text
               Text(
-                detail!.brand,
-                style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                product.name,
+                style: AppTheme.textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              
-              children: [
-                if(iMat.getShoppingCart().itemIsInCart(product))
-                  Row(
-                    children:[
-                      MinusButton(
-                        onPressed: () => iMat.shoppingCartRemove1(ShoppingItem(product)),
-                        size: 20,
-                      ),
-                      Text("${iMat.getShoppingCart().getAmountInCart(product)}"),
-                      BuyButton(
-                        onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
-                        size: 20,
-                      ),
-                    ]
-                  ),
-                if(!iMat.getShoppingCart().itemIsInCart(product))
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(minimumSize:Size(0, 48), backgroundColor: Colors.white),
-                    onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
-                    child:Text("Lägg till")
 
-                  ),
-              ],
-            ),
-          ],
+              Text(
+                '${product.price} ${product.unit}',
+                style: TextStyle(color: Colors.grey[700], fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+
+              if (detail?.brand != null)
+                Text(
+                  detail!.brand,
+                  style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (iMat.getShoppingCart().itemIsInCart(product))
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: AppTheme.colorScheme.primary,
+                      ),
+                      child: Row(
+                        children: [
+                          MinusButton(
+                            onPressed: () =>
+                                iMat.shoppingCartRemove1(ShoppingItem(product)),
+                            size: 20,
+                          ),
+                          Container(
+                            width: 30,
+                            height: 30,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                            ),
+                            child: Text(
+                              "${iMat.getShoppingCart().getAmountInCart(product)}",
+                            ),
+                          ),
+                          BuyButton(
+                            onPressed: () =>
+                                iMat.shoppingCartAdd(ShoppingItem(product)),
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (!iMat.getShoppingCart().itemIsInCart(product))
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(0, 48),
+                        backgroundColor: Colors.white,
+                      ),
+                      onPressed: () =>
+                          iMat.shoppingCartAdd(ShoppingItem(product)),
+                      child: Text("Lägg till"),
+                    ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,11 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/order.dart';
+import 'package:api_test/model/imat/util/functions.dart';
 import 'package:api_test/model/imat_data_handler.dart';
+import 'package:api_test/pages/account_view.dart';
+import 'package:api_test/pages/main_view.dart';
+import 'package:api_test/widgets/card_details.dart';
+import 'package:api_test/widgets/customer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +36,6 @@ class _HistoryViewState extends State<HistoryView> {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: AppTheme.paddingLarge),
           _header(context),
           Expanded(
             child: Row(
@@ -59,22 +63,121 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   Widget _header(BuildContext context) {
+    var iMat = context.watch<ImatDataHandler>();
+    return Container(
+      height: 80,
+      color: AppTheme.colorScheme.primary,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // ElevatedButton(onPressed: () {}, child: Text('iMat')),
+          // Image(image: AssetImage("assets/images/iMat.png")),
+          Row(
+            children: [
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainView()),
+                      (route) => false,
+                    );
+                  },
+                  child: Image.asset('assets/images/imat.png')
+                ),
+              ),
+              //Image.asset('assets/images/imat.png'),
+              ElevatedButton(//favorit-knapp
+              style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
+              backgroundColor: Colors.white),
+                onPressed: () {
+                  //print('Favoriter');
+                  iMat.selectFavorites();
+                },
+                
+                child: Row(
+                  children: [
+                    Icon(Icons.star, size: AppTheme.textTheme.headlineMedium!.fontSize,),
+                    Text('Favoriter', style: AppTheme.textTheme.headlineMedium),
+                  ]
+                )
+              ),
+              SizedBox(width: AppTheme.paddingMedium),
+              ElevatedButton(//history-knapp
+              style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
+              backgroundColor: Colors.white),
+                onPressed: () {
+                  dbugPrint('Historik-knapp');
+                  _showHistory(context);
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.hourglass_full, size: AppTheme.textTheme.headlineMedium!.fontSize,),
+                    Text('Historik', style: AppTheme.textTheme.headlineMedium),
+                  ]
+                )
+              ),
+              SizedBox(width: AppTheme.paddingMedium),
+              SearchWidget(),
+            ],
+          ),
+  
+          Row(
+            children: [
+              
+              ElevatedButton(//användare-knapp
+              style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
+              backgroundColor: Colors.white),
+                onPressed: () {
+                  _showAccount(context);
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.elderly_woman, size: AppTheme.textTheme.headlineMedium!.fontSize,),
+                    Text('Användare', style: AppTheme.textTheme.headlineMedium),
+                  ]
+                )
+              ),
+              SizedBox(width: AppTheme.paddingSmall,)
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _customerDetails() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('iMat'),
+        Expanded(
+          child: Container(
+            color: Color.fromARGB(255, 154, 172, 134),
+            child: CustomerDetails(),
+          ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Tillbaka'),
+        SizedBox(width: 16),
+        Expanded(
+          child: Container(
+            color: Color.fromARGB(255, 154, 172, 134),
+            child: CardDetails(),
+          ),
         ),
       ],
+    );
+  }
+  void _showAccount(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AccountView()),
+    );
+  }
+
+  void _showHistory(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HistoryView()),
     );
   }
 

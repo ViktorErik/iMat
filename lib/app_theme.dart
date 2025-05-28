@@ -19,8 +19,10 @@ class AppTheme {
     bodyLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
     bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
     bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+    titleMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.w100, color: Colors.black),
     labelLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w100),
     labelMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w100),
     labelSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
+    
   ); 
 }

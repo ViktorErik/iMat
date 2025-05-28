@@ -100,7 +100,7 @@ class MainView extends StatelessWidget {
                       SizedBox(height: AppTheme.paddingTiny),
                       Container(
                         //width: 580,
-                        height: 593,
+                        height: 645,
                         child: _centerStage(context, products),
                       ),
                       
@@ -171,6 +171,19 @@ class MainView extends StatelessWidget {
                 ]);
               },
               child: Text('Urval'),
+            ),
+          ),
+          SizedBox(height: AppTheme.paddingSmall),
+          SizedBox(
+            width: 132,
+            child: ElevatedButton(
+              onPressed: () {
+                //print('Frukt');
+                iMat.selectSelection(
+                  iMat.findProductsByCategory([ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT])
+                );
+              },
+              child: Text('Grönsaker'),
             ),
           ),
           SizedBox(height: AppTheme.paddingSmall),

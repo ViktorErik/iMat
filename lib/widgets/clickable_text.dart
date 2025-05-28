@@ -1,3 +1,4 @@
+import 'package:api_test/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ClickableText extends StatefulWidget {
@@ -5,7 +6,7 @@ class ClickableText extends StatefulWidget {
   final VoidCallback? onTap;
   final TextStyle? defaultStyle;
   final TextStyle? hoverStyle;
-
+  
   const ClickableText({
     super.key,
     required this.text,
@@ -13,6 +14,7 @@ class ClickableText extends StatefulWidget {
     this.defaultStyle,
     this.hoverStyle,
   });
+  
 
   @override
   _ClickableTextState createState() => _ClickableTextState();
@@ -23,8 +25,9 @@ class _ClickableTextState extends State<ClickableText> {
 
   @override
   Widget build(BuildContext context) {
+    
     final defaultStyle = widget.defaultStyle ??
-        const TextStyle(color: Colors.black);
+        const TextStyle(color: Colors.black,);
     final hoverStyle = widget.hoverStyle ??
         const TextStyle(
           color: Colors.blue,
