@@ -158,39 +158,19 @@ class MainView extends StatelessWidget {
           SizedBox(height: AppTheme.paddingSmall),
           
           SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                var products = iMat.products;
-                iMat.selectSelection([
-                  products[4],
-                  products[45],
-                  products[68],
-                  products[102],
-                  products[110],
-                ]);
-              },
-              child: Text('Urval'),
-            ),
-          ),
+            CategoryWidget(category: "DRINKS", 
+            subCategories: [ProductCategory.COLD_DRINKS, ProductCategory.HOT_DRINKS,],),
           SizedBox(height: AppTheme.paddingSmall),
-          Container(height:50, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
-            child: CategoryWidget(category: "Grönsaker", 
-            subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],)
-                //print('Frukt');
-          ),
+            CategoryWidget(category: "FRUIT", 
+            subCategories: [ProductCategory.FRUIT, ProductCategory.CITRUS_FRUIT, ProductCategory.EXOTIC_FRUIT, ProductCategory.BERRY, ProductCategory.MELONS],),
           SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                //print('Söktest');
-                iMat.selectSelection(iMat.findProducts('mj'));
-              },
-              child: Text('Söktest'),
-            ),
-          ),
+            CategoryWidget(category: "VEGETABLES", 
+            subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],),
+          SizedBox(height: AppTheme.paddingSmall),
+            CategoryWidget(category: "MEAT", 
+            subCategories: [ProductCategory.MEAT, ProductCategory.FISH],),
+            
+          
         ],
       ),
     );

@@ -1,27 +1,28 @@
 // ignore_for_file: constant_identifier_names
 
 enum ProductCategory {
-  POD,
+  CHICKEN,
+  POD,//
   BREAD,
-  BERRY,
-  CITRUS_FRUIT,
+  BERRY,//
+  CITRUS_FRUIT,//
   HOT_DRINKS,
   COLD_DRINKS,
-  EXOTIC_FRUIT,
-  FISH,
-  VEGETABLE_FRUIT,
-  CABBAGE,
-  MEAT,
+  EXOTIC_FRUIT,//
+  FISH,//
+  VEGETABLE_FRUIT,//
+  CABBAGE,//
+  MEAT,//
   DAIRIES,
   MELONS,
   FLOUR_SUGAR_SALT,
   NUTS_AND_SEEDS,
   PASTA,
   POTATO_RICE,
-  ROOT_VEGETABLE,
+  ROOT_VEGETABLE,//
   FRUIT,
   SWEET,
-  HERB,
+  HERB,//
   UNDEFINED,
 }
 
@@ -81,8 +82,12 @@ class Product {
   }
 }
 
+
+
 ProductCategory _category(String cat) {
   switch (cat) {
+    case'Kyckling':
+      return ProductCategory.CHICKEN;
     case 'POD':
       return ProductCategory.POD;
     case 'BREAD':
@@ -97,13 +102,13 @@ ProductCategory _category(String cat) {
       return ProductCategory.COLD_DRINKS;
     case 'EXOTIC_FRUIT':
       return ProductCategory.EXOTIC_FRUIT;
-    case 'FISH':
+    case 'Fisk':
       return ProductCategory.FISH;
     case 'VEGETABLE_FRUIT':
       return ProductCategory.VEGETABLE_FRUIT;
     case 'CABBAGE':
       return ProductCategory.CABBAGE;
-    case 'MEAT':
+    case 'Kött':
       return ProductCategory.MEAT;
     case 'DAIRIES':
       return ProductCategory.DAIRIES;

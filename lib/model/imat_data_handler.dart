@@ -65,6 +65,63 @@ class ImatDataHandler extends ChangeNotifier {
     notifyListeners();
   }
 
+  String translateCategory(String cat) {
+  switch (cat) {
+    case 'DRINKS':
+      return 'Drycker';
+    case 'VEGETABLES':
+      return 'Grönsaker';
+    case 'CHICKEN':
+      return 'Kyckling';
+    case 'POD':
+      return 'Baljväxter';
+    case 'BREAD':
+      return 'Bröd';
+    case 'BERRY':
+      return 'Bär';
+    case 'CITRUS_FRUIT':
+      return 'Citrusfrukter';
+    case 'HOT_DRINKS':
+      return 'Varma drycker';
+    case 'COLD_DRINKS':
+      return 'Kalla drycker';
+    case 'EXOTIC_FRUIT':
+      return 'Exotiska frukter';
+    case 'FISH':
+      return 'Fisk';
+    case 'VEGETABLE_FRUIT':
+      return 'Grönsaker & frukter';
+    case 'CABBAGE':
+      return 'Kål';
+    case 'MEAT':
+      return 'Kött';
+    case 'DAIRIES':
+      return 'Mejeriprodukter';
+    case 'MELONS':
+      return 'Meloner';
+    case 'FLOUR_SUGAR_SALT':
+      return 'Mjöl, socker & salt';
+    case 'NUTS_AND_SEEDS':
+      return 'Nötter & frön';
+    case 'PASTA':
+      return 'Pasta';
+    case 'POTATO_RICE':
+      return 'Potatis & ris';
+    case 'ROOT_VEGETABLE':
+      return 'Rotfrukter';
+    case 'FRUIT':
+      return 'Frukt';
+    case 'SWEET':
+      return 'Godis';
+    case 'HERB':
+      return 'Örter';
+    default:
+      return 'Okänd kategori';
+  }
+}
+
+
+
   // Returnerar alla produkter som hör till category.
   // Med denna och setSelection kan man sätta urvalet till en viss kategori.
   // Meddelar GUI:t att urvalet har ändrats.
