@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 // Simple widget to edit card information.
 // It's probably better to use Form
 class CustomerDetails extends StatefulWidget {
-  const CustomerDetails({super.key});
+  const CustomerDetails({super.key, this.formKey, this.autovalidateMode});
+
+  final GlobalKey<FormState>? formKey;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   State<CustomerDetails> createState() => _CustomerDetailsState();
@@ -42,43 +45,47 @@ class _CustomerDetailsState extends State<CustomerDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _firstNameController,
-          decoration: InputDecoration(labelText: 'Förnamn'),
-        ),
-        TextField(
-          controller: _lastNameController,
-          decoration: InputDecoration(labelText: 'Efternamn'),
-        ),
-        TextField(
-          controller: _mobileNumberController,
-          decoration: InputDecoration(labelText: 'Mobilnummer'),
-        ),
-        TextField(
-          controller: _emailController,
-          decoration: InputDecoration(labelText: 'E-post'),
-        ),
-        TextField(
-          controller: _addressController,
-          decoration: InputDecoration(labelText: 'Adress'),
-        ),
-        TextField(
-          controller: _postCodeController,
-          decoration: InputDecoration(labelText: 'Postnummer'),
-        ),
-        TextField(
-          controller: _postAddressController,
-          decoration: InputDecoration(labelText: 'Ort'),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(onPressed: _saveCustomer, child: Text('Spara')),
-          ],
-        ),
-      ],
+    return Form(
+      key: widget.formKey,
+      autovalidateMode: widget.autovalidateMode,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _firstNameController,
+            decoration: InputDecoration(labelText: 'Förnamn'),
+          ),
+          TextFormField(
+            controller: _lastNameController,
+            decoration: InputDecoration(labelText: 'Efternamn'),
+          ),
+          TextFormField(
+            controller: _mobileNumberController,
+            decoration: InputDecoration(labelText: 'Mobilnummer'),
+          ),
+          TextFormField(
+            controller: _emailController,
+            decoration: InputDecoration(labelText: 'E-post'),
+          ),
+          TextFormField(
+            controller: _addressController,
+            decoration: InputDecoration(labelText: 'Adress'),
+          ),
+          TextFormField(
+            controller: _postCodeController,
+            decoration: InputDecoration(labelText: 'Postnummer'),
+          ),
+          TextFormField(
+            controller: _postAddressController,
+            decoration: InputDecoration(labelText: 'Ort'),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(onPressed: _saveCustomer, child: Text('Spara')),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

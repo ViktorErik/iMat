@@ -1,11 +1,11 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/product.dart';
-import 'package:api_test/model/imat/product_detail.dart';
 import 'package:api_test/model/imat/util/functions.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
 import 'package:api_test/pages/history_view.dart';
-import 'package:api_test/pages/product_view.dart';
+
+import 'package:api_test/widgets/checkout_wizard.dart';
 import 'package:api_test/widgets/cart_view.dart';
 import 'package:api_test/widgets/category_widget.dart';
 import 'package:api_test/widgets/product_tile.dart';
@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchWidget extends StatefulWidget{
+  const SearchWidget({super.key});
   @override
   _SearchWidgetState createState() => _SearchWidgetState();
 }
@@ -111,7 +112,7 @@ class MainView extends StatelessWidget {
                 Container(
                   width: 300,
                   //color: Colors.blueGrey,
-                  child: _shoppingCart(iMat),
+                  child: _shoppingCart(iMat, context),
                 ),
               ],
             ),
@@ -121,7 +122,7 @@ class MainView extends StatelessWidget {
     );
   }
 
-  Widget _shoppingCart(ImatDataHandler iMat) {
+  Widget _shoppingCart(ImatDataHandler iMat, BuildContext context) {
     return Container(color: Color.fromARGB(100, 205, 195, 183),
       child:
         Column(
@@ -130,7 +131,25 @@ class MainView extends StatelessWidget {
           Container(height: 400, child: CartView()),
           ElevatedButton(
             onPressed: () {
-              iMat.placeOrder();
+              if (iMat.getShoppingCart().items.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Lägg till varor i kundvagnen för att betala!")),
+                );
+                return;
+              }
+
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                builder: (_) => ChangeNotifierProvider.value(
+                  value: iMat,
+                  child: const CheckoutWizard(),
+                ),
+              );
             },
             child: Text('Köp!'),
           ),
