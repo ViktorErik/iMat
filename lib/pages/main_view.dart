@@ -5,16 +5,19 @@ import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
 import 'package:api_test/pages/history_view.dart';
 import 'package:api_test/widgets/cart_view.dart';
+import 'package:api_test/widgets/checkout_wizard.dart';
 import 'package:api_test/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchWidget extends StatefulWidget{
+  const SearchWidget({super.key});
+
   @override
-  _SearchWidgetState createState() => _SearchWidgetState();
+  SearchWidgetState createState() => SearchWidgetState();
 }
 
-class _SearchWidgetState extends State<SearchWidget> {
+class SearchWidgetState extends State<SearchWidget> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -86,7 +89,7 @@ class MainView extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: AppTheme.paddingTiny),
-                      Container(
+                      SizedBox(
                         //width: 580,
                         height: 593,
                         child: _centerStage(context, products),
@@ -95,10 +98,10 @@ class MainView extends StatelessWidget {
                     ]
                   )
                 ),
-                Container(
+                SizedBox(
                   width: 300,
                   //color: Colors.blueGrey,
-                  child: _shoppingCart(iMat),
+                  child: _shoppingCart(iMat, context),
                 ),
               ],
             ),
@@ -108,14 +111,32 @@ class MainView extends StatelessWidget {
     );
   }
 
-  Widget _shoppingCart(ImatDataHandler iMat) {
+  Widget _shoppingCart(ImatDataHandler iMat, BuildContext context) {
     return Column(
       children: [
         Text('Kundvagn'),
-        Container(height: 400, child: CartView()),
+        SizedBox(height: 400, child: CartView()),
         ElevatedButton(
           onPressed: () {
-            iMat.placeOrder();
+            if (iMat.getShoppingCart().items.isEmpty){
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Lägg till varor i kundvagnen för att betala!")),
+              );
+              return;
+            }
+
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                builder: (_) => ChangeNotifierProvider.value(
+                  value: iMat,
+                  child: const CheckoutWizard(),
+                ),
+            );
           },
           child: Text('Köp!'),
         ),
@@ -140,7 +161,7 @@ class MainView extends StatelessWidget {
             ),
           ),
           SizedBox(height: AppTheme.paddingSmall),
-          
+
           SizedBox(height: AppTheme.paddingSmall),
           SizedBox(
             width: 132,
@@ -205,7 +226,7 @@ class MainView extends StatelessWidget {
                   //print('Favoriter');
                   iMat.selectFavorites();
                 },
-                
+
                 child: Row(
                   children: [
                     Icon(Icons.star, size: AppTheme.textTheme.headlineMedium!.fontSize,),
@@ -216,7 +237,7 @@ class MainView extends StatelessWidget {
               SizedBox(width: AppTheme.paddingMedium),
               ElevatedButton(//history-knapp
                 onPressed: () {
-                  dbugPrint('Historik-knapp');
+                  debugPrint('Historik-knapp');
                   _showHistory(context);
                 },
                 child: Row(
@@ -228,10 +249,10 @@ class MainView extends StatelessWidget {
               ),
             ],
           ),
-  
+
           Row(
             children: [
-              
+
               ElevatedButton(//användare-knapp
                 onPressed: () {
                   _showAccount(context);

@@ -316,7 +316,7 @@ class ImatDataHandler extends ChangeNotifier {
     notifyListeners();
   }
 
-  void placeOrder() async {
+  Future<void> placeOrder() async {
     await InternetHandler.placeOrder();
     _shoppingCart.clear();
     notifyListeners();

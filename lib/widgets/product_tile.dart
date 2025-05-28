@@ -66,17 +66,6 @@ class ProductTile extends StatelessWidget {
     );
   }
 
-  String _brand(Product product, context) {
-    var iMat = Provider.of<ImatDataHandler>(context, listen: false);
-
-    ProductDetail? detail = iMat.getDetail(product);
-
-    if (detail != null) {
-      return detail.brand;
-    }
-    return '';
-  }
-
   Widget _favoriteButton(Product p, context) {
     var iMat = Provider.of<ImatDataHandler>(context, listen: false);
     var isFavorite = iMat.isFavorite(product);

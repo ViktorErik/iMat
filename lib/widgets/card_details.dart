@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 // Simple widget to edit card information.
 // It's probably better to use Form
 class CardDetails extends StatefulWidget {
-  const CardDetails({super.key});
+  const CardDetails({super.key, this.formKey, this.autovalidateMode});
+
+  final GlobalKey<FormState>? formKey;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   State<CardDetails> createState() => _CardDetailsState();
@@ -37,35 +40,39 @@ class _CardDetailsState extends State<CardDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _typeController,
-          decoration: InputDecoration(labelText: 'Kortnummer'),
-        ),
-        TextField(
-          controller: _nameController,
-          decoration: InputDecoration(labelText: 'Namn'),
-        ),
-        TextField(
-          controller: _monthController,
-          decoration: InputDecoration(labelText: 'Giltigt månad (1-12)'),
-        ),
-        TextField(
-          controller: _yearController,
-          decoration: InputDecoration(labelText: 'Giltigt år'),
-        ),
-        TextField(
-          controller: _codeController,
-          decoration: InputDecoration(labelText: 'CVV-kod'),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(onPressed: _saveCard, child: Text('Spara')),
-          ],
-        ),
-      ],
+    return Form(
+      key: widget.formKey,
+      autovalidateMode: widget.autovalidateMode,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _typeController,
+            decoration: InputDecoration(labelText: 'Kortnummer'),
+          ),
+          TextFormField(
+            controller: _nameController,
+            decoration: InputDecoration(labelText: 'Namn'),
+          ),
+          TextFormField(
+            controller: _monthController,
+            decoration: InputDecoration(labelText: 'Giltigt månad (1-12)'),
+          ),
+          TextFormField(
+            controller: _yearController,
+            decoration: InputDecoration(labelText: 'Giltigt år'),
+          ),
+          TextFormField(
+            controller: _codeController,
+            decoration: InputDecoration(labelText: 'CVV-kod'),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(onPressed: _saveCard, child: Text('Spara')),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
