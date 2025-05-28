@@ -7,6 +7,7 @@ import 'package:api_test/pages/account_view.dart';
 import 'package:api_test/pages/history_view.dart';
 import 'package:api_test/pages/product_view.dart';
 import 'package:api_test/widgets/cart_view.dart';
+import 'package:api_test/widgets/category_widget.dart';
 import 'package:api_test/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -174,30 +175,10 @@ class MainView extends StatelessWidget {
             ),
           ),
           SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
+          Container(height:50, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
+            child: CategoryWidget(category: "Grönsaker", 
+            subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],)
                 //print('Frukt');
-                iMat.selectSelection(
-                  iMat.findProductsByCategory([ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT])
-                );
-              },
-              child: Text('Grönsaker'),
-            ),
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                //print('Frukt');
-                iMat.selectSelection(
-                  iMat.findProductsByCategory([ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT])
-                );
-              },
-              child: Text('Grönsaker'),
-            ),
           ),
           SizedBox(height: AppTheme.paddingSmall),
           SizedBox(
