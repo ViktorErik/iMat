@@ -11,10 +11,16 @@ class AppTheme {
   static ColorScheme colorScheme = ColorScheme.fromSeed(
     seedColor: Colors.deepPurple,
   );
-
+  
   static TextTheme textTheme = TextTheme(
     headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
     headlineMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-  );
-
+    headlineSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    bodyLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+    bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+    bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+    labelLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w100),
+    labelMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w100),
+    labelSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
+  ); 
 }

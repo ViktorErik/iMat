@@ -4,7 +4,9 @@ import 'package:api_test/model/imat/product_detail.dart';
 import 'package:api_test/model/imat/shopping_cart.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat_data_handler.dart';
+import 'package:api_test/pages/product_view.dart';
 import 'package:api_test/widgets/buy_button.dart';
+import 'package:api_test/widgets/clickable_text.dart';
 import 'package:api_test/widgets/minus_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,21 +43,20 @@ class ProductTile extends StatelessWidget {
                 onPressed: () => iMat.toggleFavorite(product),
               ),
             ]),
-            Text(
-              product.name,
+            ClickableText(
+              text:product.name,
+              onTap:() => _showProduct(context, product),
               
-              style:AppTheme.textTheme.headlineMedium,
-              textAlign: TextAlign.center,
             ),
             Text(
               '${product.price} ${product.unit}',
-              style: TextStyle(color: Colors.grey[700], fontSize: 12),
+              style: TextStyle(color: Colors.grey[700], fontSize: 18),
               textAlign: TextAlign.center,
             ),
             if (detail?.brand != null)
               Text(
                 detail!.brand,
-                style: TextStyle(color: Colors.grey[500], fontSize: 11),
+                style: TextStyle(color: Colors.grey[500], fontSize: 12),
                 textAlign: TextAlign.center,
               ),
             Row(
@@ -69,6 +70,7 @@ class ProductTile extends StatelessWidget {
                         onPressed: () => iMat.shoppingCartRemove1(ShoppingItem(product)),
                         size: 20,
                       ),
+                      Text("${iMat.getShoppingCart().getAmountInCart(product)}"),
                       BuyButton(
                         onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
                         size: 20,
@@ -115,6 +117,13 @@ class ProductTile extends StatelessWidget {
         iMat.toggleFavorite(product);
       },
       icon: icon,
+    );
+  }
+
+  void _showProduct(context, Product product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProductView(product: product)),
     );
   }
 }

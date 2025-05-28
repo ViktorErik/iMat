@@ -25,4 +25,8 @@ class ProductDetail {
   static const _descKey = 'description';
   static const _contentsKey = 'contents';
   static const _originKey = 'origin';
+  
+  String getDescription(){
+    return description;
+  }
 }

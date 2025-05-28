@@ -86,6 +86,16 @@ class ShoppingCart {
     }
     return false;
   }
+
+  double getAmountInCart(Product prod){
+    for(ShoppingItem item in items){
+      if(item.product==prod){
+        return item.amount;
+      }
+    }
+    return 0;
+  }
+
   void removeItem(ShoppingItem sci) {
     int pId = sci.product.productId;
     List<ShoppingItem> toRemove = [];

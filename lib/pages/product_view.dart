@@ -1,12 +1,15 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/product.dart';
 import 'package:api_test/model/imat/product_detail.dart';
+import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat/util/functions.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
 import 'package:api_test/pages/history_view.dart';
-import 'package:api_test/pages/product_view.dart';
+import 'package:api_test/pages/main_view.dart';
+import 'package:api_test/widgets/buy_button.dart';
 import 'package:api_test/widgets/cart_view.dart';
+import 'package:api_test/widgets/minus_button.dart';
 import 'package:api_test/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -63,8 +66,9 @@ class _SearchWidgetState extends State<SearchWidget> {
   
 
 }
-class MainView extends StatelessWidget {
-  const MainView({super.key});
+class ProductView extends StatelessWidget {
+  final Product product;
+  const ProductView({super.key, required this.product});
   
   @override
   Widget build(BuildContext context) {
@@ -226,7 +230,6 @@ class MainView extends StatelessWidget {
                   child: Image.asset('assets/images/imat.png')
                 ),
               ),
-              //Image.asset('assets/images/imat.png'),
               ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
@@ -289,18 +292,69 @@ class MainView extends StatelessWidget {
   Widget _centerStage(BuildContext context, List<Product> products) {
     // ListView.builder has the advantage that tiles
     // are built as needed.
-    return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(AppTheme.paddingMedium, 0, AppTheme.paddingSmall,AppTheme.paddingSmall),
-      itemCount: products.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        crossAxisSpacing: AppTheme.paddingMedium,
-        mainAxisSpacing:  AppTheme.paddingMedium,
-        childAspectRatio: 0.7,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return ProductTile(products[index]);
-      },
+    var iMat = Provider.of<ImatDataHandler>(context, listen: false);
+    var details = iMat.getDetailWithId(product.productId);
+    return Row(
+      children: [
+        Expanded(
+          flex: 6,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16), // Padding runt bilden
+                child: iMat.getImage(product),
+              ),
+            ],
+          ),
+        ),
+
+        // Vertikalt streck
+        Container(
+          width: 1,
+          color: Colors.grey[300],
+          margin: EdgeInsets.symmetric(vertical: 16),
+        ),
+
+        Expanded(
+          flex: 4,
+          child: Padding(
+            padding: EdgeInsets.all(16), // Padding runt texten
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(product.name, style: AppTheme.textTheme.headlineLarge),
+                SizedBox(height: 4),
+                Text(details!.description, style: AppTheme.textTheme.bodyLarge),
+                Text("${product.price}${product.unit}", style: AppTheme.textTheme.labelLarge),
+                if(iMat.getShoppingCart().itemIsInCart(product))
+                  Row(
+                    children:[
+                      MinusButton(
+                        onPressed: () => iMat.shoppingCartRemove1(ShoppingItem(product)),
+                        size: 20,
+                      ),
+                      Text("${iMat.getShoppingCart().getAmountInCart(product)}"),
+                      BuyButton(
+                        onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
+                        size: 20,
+                      ),
+                    ]
+                  ),
+                if(!iMat.getShoppingCart().itemIsInCart(product))
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(minimumSize:Size(0, 48), backgroundColor: Colors.white),
+                    onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
+                    child:Text("Lägg till")
+
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
