@@ -64,7 +64,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
+
     return Column(
       children: [
         TextField(
@@ -124,51 +124,11 @@ class _CustomerDetailsState extends State<CustomerDetails> {
             ElevatedButton(onPressed: _saveInformation, child: Text('Spara')),
           ],
         ),
-      ],
-=======
-    return Form(
-      key: widget.formKey,
-      autovalidateMode: widget.autovalidateMode,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: _firstNameController,
-            decoration: InputDecoration(labelText: 'Förnamn'),
-          ),
-          TextFormField(
-            controller: _lastNameController,
-            decoration: InputDecoration(labelText: 'Efternamn'),
-          ),
-          TextFormField(
-            controller: _mobileNumberController,
-            decoration: InputDecoration(labelText: 'Mobilnummer'),
-          ),
-          TextFormField(
-            controller: _emailController,
-            decoration: InputDecoration(labelText: 'E-post'),
-          ),
-          TextFormField(
-            controller: _addressController,
-            decoration: InputDecoration(labelText: 'Adress'),
-          ),
-          TextFormField(
-            controller: _postCodeController,
-            decoration: InputDecoration(labelText: 'Postnummer'),
-          ),
-          TextFormField(
-            controller: _postAddressController,
-            decoration: InputDecoration(labelText: 'Ort'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(onPressed: _saveCustomer, child: Text('Spara')),
-            ],
-          ),
-        ],
-      ),
->>>>>>> e30cf7fe15909c047d815dcb64dcfec59ea4fbf3
+    
+      ]
     );
+
+
   }
 
   _saveCustomer() {
@@ -207,3 +167,4 @@ class _CustomerDetailsState extends State<CustomerDetails> {
 
   }
 }
+
