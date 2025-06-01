@@ -61,6 +61,11 @@ class AccountView extends StatelessWidget {
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
                 onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainView()),
+                      (route) => false,
+                    );
                   //print('Favoriter');
                   iMat.selectFavorites();
                 },

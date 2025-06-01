@@ -1,5 +1,6 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/order.dart';
+import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat/util/functions.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
@@ -47,7 +48,7 @@ class _HistoryViewState extends State<HistoryView> {
                   // When a user taps on an item the function _selectOrder is called
                   // The Material widget is need to make hovering pliancy effects visible
                   child: Material(
-                    color: const Color.fromARGB(255, 154, 172, 134),
+                    color: const Color.fromARGB(255, 255, 255, 255),
                     child: _ordersList(context, orders, _selectOrder),
                   ),
                 ),
@@ -92,6 +93,11 @@ class _HistoryViewState extends State<HistoryView> {
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
                 onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainView()),
+                      (route) => false,
+                    );
                   //print('Favoriter');
                   iMat.selectFavorites();
                 },
@@ -182,15 +188,26 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   Widget _ordersList(BuildContext context, List<Order> orders, Function onTap) {
+    Iterable<Order> reversedOrders = orders.reversed;
     return ListView(
-      children: [for (final order in orders) _orderInfo(order, onTap)],
+      children: [for (final order in reversedOrders) _orderInfo(order, onTap)],
     );
   }
 
   Widget _orderInfo(Order order, Function onTap) {
     return ListTile(
       onTap: () => onTap(order),
-      title: Text('Order ${order.orderNumber}, ${_formatDateTime(order.date)}'),
+      title: Text(style: AppTheme.textTheme.labelMedium, 'Order ${order.orderNumber}, Antal varor:${order.items.length}, ${_formatDateTime(order.date)}'),
+    );
+  }
+
+  Widget _orderItem(ShoppingItem item) {
+    var iMat = Provider.of<ImatDataHandler>(context, listen: false);
+    return ListTile(tileColor: Colors.white,
+      title: 
+          Text(style: AppTheme.textTheme.labelLarge,item.product.name), 
+      leading: Text(style: AppTheme.textTheme.labelLarge, "${item.amount}st"),
+      trailing: iMat.getImage(item.product),
     );
   }
 
@@ -218,15 +235,16 @@ class _HistoryViewState extends State<HistoryView> {
         children: [
           Text(
             'Order ${order.orderNumber}',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),      
           SizedBox(height: AppTheme.paddingSmall),
-          for (final item in order.items)
-            Text('${item.product.name}, ${item.amount}'),
+          SizedBox(height: 400, child:
+            ListView(children:[for (final item in order.items) _orderItem(item)]),
+          ),
           SizedBox(height: AppTheme.paddingSmall),
           Text(
             'Totalt: ${order.getTotal().toStringAsFixed(2)}kr',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: AppTheme.textTheme.headlineSmall,
           ),
         ],
       );
