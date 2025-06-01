@@ -3,6 +3,7 @@ import 'package:api_test/model/imat/util/functions.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/history_view.dart';
 import 'package:api_test/pages/main_view.dart';
+import 'package:api_test/widgets/card_details.dart';
 import 'package:api_test/widgets/customer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,23 +14,19 @@ class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child:
-      Column(
-        children: [ 
+      body: Column(
+        children: [
           _header(context),
           Padding(
           padding: const EdgeInsets.all(AppTheme.paddingMedium),
           child: Column(
             children: [
-              Align(alignment: Alignment.topLeft,
-                child:Text("Profil", style: AppTheme.textTheme.headlineMedium,)),
+              
               SizedBox(height: AppTheme.paddingMedium),
               _customerDetails(),
             ],
           ),
         ),],
-      ),
       ),
     );
   }
@@ -64,11 +61,6 @@ class AccountView extends StatelessWidget {
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainView()),
-                      (route) => false,
-                    );
                   //print('Favoriter');
                   iMat.selectFavorites();
                 },
@@ -129,14 +121,16 @@ class AccountView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Column(
-            children: [
-              Container(
+          child: Container(
             color: Color.fromARGB(255, 154, 172, 134),
             child: CustomerDetails(),
-            ),
-            ],
-            
+          ),
+        ),
+        SizedBox(width: 16),
+        Expanded(
+          child: Container(
+            color: Color.fromARGB(255, 154, 172, 134),
+            child: CardDetails(),
           ),
         ),
       ],
@@ -156,4 +150,3 @@ class AccountView extends StatelessWidget {
     );
   }
 }
-
