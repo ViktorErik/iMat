@@ -258,11 +258,12 @@ class MainView extends StatelessWidget {
                       (route) => false,
                     );
                   },
+
                   child: Image.asset('assets/images/imat.png',)
                 ),
               ),
               //Image.asset('assets/images/imat.png'),
-              SizedBox(width: 220),
+              SizedBox(width: 185),
               SearchWidget(controller: searchController,),
               SizedBox(width: AppTheme.paddingMedium),
               ElevatedButton(//favorit-knapp

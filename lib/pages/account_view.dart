@@ -91,7 +91,7 @@ class AccountView extends StatelessWidget {
                   child: Image.asset('assets/images/imat.png')
                 ),
               ),
-              SizedBox(width: 220),
+              SizedBox(width: 185),
               SearchWidget(controller: searchController),
               SizedBox(width: AppTheme.paddingMedium),
               //Image.asset('assets/images/imat.png'),

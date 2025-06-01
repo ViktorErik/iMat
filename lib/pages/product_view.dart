@@ -233,7 +233,7 @@ class ProductView extends StatelessWidget {
                   child: Image.asset('assets/images/imat.png')                  
                 ),
               ),
-              SizedBox(width: 220),
+              SizedBox(width: 185),
               SearchWidget(),
               SizedBox(width: AppTheme.paddingMedium),
               ElevatedButton(//favorit-knapp

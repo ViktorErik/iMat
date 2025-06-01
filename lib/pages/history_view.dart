@@ -114,7 +114,7 @@ class _HistoryViewState extends State<HistoryView> {
                   child: Image.asset('assets/images/imat.png')
                 ),
               ),
-              SizedBox(width: 220),
+              SizedBox(width: 185),
               //Image.asset('assets/images/imat.png'),
               SearchWidget(controller: searchController),
               SizedBox(width: AppTheme.paddingMedium),
