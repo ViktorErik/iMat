@@ -79,9 +79,13 @@ class _CustomerDetailsState extends State<CustomerDetails> {
             decoration: InputDecoration(labelText: 'Ort'),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ElevatedButton(onPressed: _saveCustomer, child: Text('Spara')),
+              ElevatedButton(style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                textStyle: TextStyle(fontSize: 18),       
+              ),
+              onPressed: _saveCustomer, child: Text('Spara')),
             ],
           ),
         ],
@@ -103,5 +107,12 @@ class _CustomerDetailsState extends State<CustomerDetails> {
 
     // This is needed to trigger updates to the server
     _imatDataHandler.setCustomer(customer);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Leverans och kontaktuppgifter sparade'),
+      duration: Duration(seconds: 3),
+    )
+    );
   }
 }

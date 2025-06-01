@@ -28,6 +28,8 @@ class _HistoryViewState extends State<HistoryView> {
   Widget build(BuildContext context) {
     // Provider.of eftersom denna vy inte behöver veta något om
     // ändringar i iMats data. Den visar bara det som finns nu
+    // final TextEditingController searchController;
+    final searchController = TextEditingController();
     var iMat = Provider.of<ImatDataHandler>(context, listen: false);
 
     // Hämta datan som ska visas
@@ -65,6 +67,7 @@ class _HistoryViewState extends State<HistoryView> {
 
   Widget _header(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
+    final searchController = TextEditingController();
     return Container(
       height: 80,
       color: AppTheme.colorScheme.primary,
@@ -126,7 +129,7 @@ class _HistoryViewState extends State<HistoryView> {
                 )
               ),
               SizedBox(width: AppTheme.paddingMedium),
-              SearchWidget(),
+              SearchWidget(controller: searchController,),
             ],
           ),
   

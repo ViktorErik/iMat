@@ -10,29 +10,33 @@ import 'package:provider/provider.dart';
 
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
+  
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: SingleChildScrollView(
+        child: Column(
         children: [
           _header(context),
           Padding(
           padding: const EdgeInsets.all(AppTheme.paddingMedium),
           child: Column(
-            children: [
-              
+            children: [  
+              Text(style: AppTheme.textTheme.headlineLarge, "Profil"),
+              Text(style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 77, 76, 76)), "Hantera dina uppgifter"),
+              ]),),
               SizedBox(height: AppTheme.paddingMedium),
-              _customerDetails(),
+              _customerDetails()
             ],
           ),
-        ),],
-      ),
-    );
+        ),
+      );
   }
 
   Widget _header(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
+    final searchController = TextEditingController();
     return Container(
       height: 80,
       color: AppTheme.colorScheme.primary,
@@ -89,7 +93,7 @@ class AccountView extends StatelessWidget {
                 )
               ),
               SizedBox(width: AppTheme.paddingMedium),
-              SearchWidget(),
+              SearchWidget(controller: searchController,),
             ],
           ),
   
@@ -118,22 +122,18 @@ class AccountView extends StatelessWidget {
   }
 
   Widget _customerDetails() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return 
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Container(
-            color: Color.fromARGB(255, 154, 172, 134),
-            child: CustomerDetails(),
-          ),
-        ),
-        SizedBox(width: 16),
-        Expanded(
-          child: Container(
-            color: Color.fromARGB(255, 154, 172, 134),
-            child: CardDetails(),
-          ),
-        ),
+            Text(style:AppTheme.textTheme.headlineMedium, "Leverans och kontaktuppgifter"),
+            SizedBox(height: AppTheme.paddingMediumSmall),
+            CustomerDetails(),
+            SizedBox(height: AppTheme.paddingMediumSmall),
+            Text(style:AppTheme.textTheme.headlineMedium, "Betalningsinformation"),
+            SizedBox(height: AppTheme.paddingMediumSmall),
+            CardDetails(),      
+            SizedBox(height: 40)
       ],
     );
   }

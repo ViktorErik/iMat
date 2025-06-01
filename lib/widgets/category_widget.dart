@@ -1,6 +1,7 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/product.dart';
 import 'package:api_test/model/imat_data_handler.dart';
+import 'package:api_test/pages/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -57,10 +58,15 @@ class _CategoryWidgetState extends State<CategoryWidget>
                       topLeft: borderRadius.topLeft,
                       bottomLeft: borderRadius.bottomLeft,
                     ),
-                    onTap: widget.onTextTap ??
-                        () => iMat.selectSelection(
-                              iMat.findProductsByCategory(widget.subCategories),
+                    onTap: 
+                      widget.onTextTap ??
+                        () => {iMat.selectSelection(
+                              iMat.findProductsByCategory(widget.subCategories),            
                             ),
+                            MainView.searchController.clear(),
+                        },
+                        // SearchWidget(controller: MainView.searchController,);
+                    
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: leftPadding),
                       child: Align(
@@ -90,8 +96,10 @@ class _CategoryWidgetState extends State<CategoryWidget>
                       bottomRight: borderRadius.bottomRight,
                     ),
                     onTap: () {
+                      
                       setState(() {
                         _showSubcategories = !_showSubcategories;
+                        MainView.searchController.clear();
                       });
                       widget.onIconTap?.call();
                     },

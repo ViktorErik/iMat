@@ -13,19 +13,31 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchWidget extends StatefulWidget{
-  const SearchWidget({super.key});
+
+  final TextEditingController controller; // Add this line
+
+  const SearchWidget({super.key, required this.controller}); 
+
+  // const SearchWidget({super.key});
   @override
   _SearchWidgetState createState() => _SearchWidgetState();
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-  final TextEditingController _searchController = TextEditingController();
+  // final TextEditingController _searchController = TextEditingController();
 
+  /*
   @override
   void dispose() {
-    _searchController.dispose();
+    widget.controller.dispose();
     super.dispose();
   }
+  */
+
+  void clearSearch() {
+    
+  }
+
   @override
   Widget build(BuildContext context){
     var iMat = context.watch<ImatDataHandler>();
@@ -37,9 +49,9 @@ class _SearchWidgetState extends State<SearchWidget> {
         borderRadius: BorderRadius.circular(36),
       ),
       child: TextFormField(
-        controller: _searchController,
+        controller: widget.controller,
         onFieldSubmitted: (value){
-          iMat.selectSelection(iMat.findProducts(_searchController.text));
+          iMat.selectSelection(iMat.findProducts(widget.controller.text));
           
         },
         decoration: InputDecoration(
@@ -48,7 +60,7 @@ class _SearchWidgetState extends State<SearchWidget> {
             icon: Icon(Icons.search),
             onPressed: () {
               //sök-funktion
-              iMat.selectSelection(iMat.findProducts(_searchController.text));
+              iMat.selectSelection(iMat.findProducts(widget.controller.text));
             },
           ),
           border: OutlineInputBorder(
@@ -66,13 +78,15 @@ class _SearchWidgetState extends State<SearchWidget> {
 
 }
 class MainView extends StatelessWidget {
+  static var searchController = TextEditingController();
   const MainView({super.key});
+  
   
   @override
   Widget build(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
     var products = iMat.selectProducts;
-    
+
 
     return Scaffold(
       
@@ -173,39 +187,57 @@ class MainView extends StatelessWidget {
 
 
   Container _leftPanel(ImatDataHandler iMat) {
+    
     return Container(
       width: 300,
       color: AppTheme.colorScheme.primary,
       child: Scrollbar(thickness: 1,
-        child: Padding(padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-        child:
-          ListView(
-          children: [
-            SizedBox(height: AppTheme.paddingSmall),
-            SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "VISA ALLT", 
-              subCategories: [],onTextTap: iMat.selectAllProducts,),
-            SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "DRINKS", 
-              subCategories: [ProductCategory.COLD_DRINKS, ProductCategory.HOT_DRINKS,],),
-            SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "FRUIT", 
-              subCategories: [ProductCategory.FRUIT, ProductCategory.CITRUS_FRUIT, ProductCategory.EXOTIC_FRUIT, ProductCategory.BERRY, ProductCategory.MELONS],),
-            SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "VEGETABLES", 
-              subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],),
-            SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "MEAT", 
-              subCategories: [ProductCategory.MEAT, ProductCategory.FISH],),
+        child: 
+        Padding(padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+          child: 
+            GestureDetector(
+              onTap: searchController.clear,
+            child: ListView(       
+                   
+            children: [
+                          
+              SizedBox(height: AppTheme.paddingSmall),
+              SizedBox(height: AppTheme.paddingSmall),
+                CategoryWidget(category: "VISA ALLT", 
+                subCategories: [],
+                onTextTap: () => {  
+                  searchController.clear(),
+                  iMat.selectAllProducts(),
+                  //searchController.clear(),
+                
+                },
+                ),
+              SizedBox(height: AppTheme.paddingSmall),
+                CategoryWidget(category: "DRINKS",
+                subCategories: [ProductCategory.COLD_DRINKS, ProductCategory.HOT_DRINKS,],
+                
+                ),
+              SizedBox(height: AppTheme.paddingSmall),
+                CategoryWidget(category: "FRUIT", 
+                subCategories: [ProductCategory.FRUIT, ProductCategory.CITRUS_FRUIT, ProductCategory.EXOTIC_FRUIT, ProductCategory.BERRY, ProductCategory.MELONS],),
+              SizedBox(height: AppTheme.paddingSmall),
+                CategoryWidget(category: "VEGETABLES", 
+                subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],),
+              SizedBox(height: AppTheme.paddingSmall),
+                CategoryWidget(category: "MEAT", 
+                subCategories: [ProductCategory.MEAT, ProductCategory.FISH],),
+                
               
-            
-          ],
+            ],
+          ),
         ),
-      ),),
+      ),
+      ),
     );
   }
 
   Container _header(BuildContext context, ImatDataHandler iMat) {
+    
     return Container(
       height: 80,
       color: AppTheme.colorScheme.primary,
@@ -262,7 +294,7 @@ class MainView extends StatelessWidget {
                 )
               ),
               SizedBox(width: AppTheme.paddingMedium),
-              SearchWidget(),
+              SearchWidget(controller: searchController,),
             ],
           ),
   

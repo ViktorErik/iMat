@@ -65,10 +65,15 @@ class _CardDetailsState extends State<CardDetails> {
             controller: _codeController,
             decoration: InputDecoration(labelText: 'CVV-kod'),
           ),
+          SizedBox(height: AppTheme.paddingMedium),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ElevatedButton(onPressed: _saveCard, child: Text('Spara')),
+              ElevatedButton(style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                textStyle: TextStyle(fontSize: 18)
+              ),
+              onPressed: _saveCard, child: Text('Spara')),
             ],
           ),
         ],
@@ -89,5 +94,12 @@ class _CardDetailsState extends State<CardDetails> {
 
     // This needed to trigger update to the server
     iMat.setCreditCard(card);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('Betalningsinformation sparad'),
+      duration: Duration(seconds: 3),
+    )
+    );
   }
 }
