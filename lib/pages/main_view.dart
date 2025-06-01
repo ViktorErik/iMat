@@ -216,6 +216,7 @@ class MainView extends StatelessWidget {
                 ),
               ),
               //Image.asset('assets/images/imat.png'),
+              SizedBox(width: 220),
               ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
