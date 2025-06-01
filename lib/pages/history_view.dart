@@ -43,7 +43,7 @@ class _HistoryViewState extends State<HistoryView> {
           Expanded(
             child: Row(
               children: [
-                Container(
+                SizedBox(
                   width: 300,
                   //height: 600,
                   // Creates the list to the left.
@@ -57,6 +57,29 @@ class _HistoryViewState extends State<HistoryView> {
                 // Creates the view to the right showing the
                 // currently selected order.
                 Expanded(child: _orderDetails(_selectedOrder)),
+
+
+                Padding(
+              padding: EdgeInsets.all(AppTheme.paddingSmall),
+              child: Align(
+              alignment: Alignment.topRight,
+              child: ElevatedButton( //Tillbaka knapp
+              style: ElevatedButton.styleFrom(fixedSize: Size(135,50),
+              backgroundColor: const Color.fromARGB(255, 235, 232, 232)),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainView()),
+                      (route) => false,
+                    );
+                },
+                
+                child: Row(
+                  children: [
+                    Text("Tillbaka", style: AppTheme.textTheme.headlineMedium, textAlign: TextAlign.center,),
+                  ]
+                )
+                ))),
               ],
             ),
           ),
