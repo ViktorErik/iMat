@@ -13,27 +13,40 @@ class AccountView extends StatelessWidget {
   
 
 @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-        children: [
-          _header(context),
-          Padding(
-          padding: const EdgeInsets.all(AppTheme.paddingMedium),
-          child: Column(
-            children: [  
-              Text(style: AppTheme.textTheme.headlineLarge, "Profil"),
-              Text(style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 77, 76, 76)), "Hantera dina uppgifter"),
-              ]),),
-              SizedBox(height: AppTheme.paddingMedium),
-              _customerDetails()
-            ],
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Column(
+      children: [
+        _header(context), // No padding here
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 200),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(AppTheme.paddingMedium),
+                    child: Column(
+                      children: [
+                        Text(style: AppTheme.textTheme.headlineLarge, "Profil"),
+                        Text(
+                          style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 77, 76, 76)),
+                          "Hantera dina uppgifter",
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: AppTheme.paddingMedium),
+                  _customerDetails(),
+                ],
+              ),
+            ),
           ),
         ),
-      );
-  }
-
+      ],
+    ),
+  );
+}
   Widget _header(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
     final searchController = TextEditingController();
