@@ -10,6 +10,7 @@ class AppTheme {
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(
     seedColor: Colors.deepPurple,
+    secondary: Color.fromARGB(100, 73, 41, 129)
   );
   
   static TextTheme textTheme = TextTheme(

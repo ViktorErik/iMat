@@ -179,7 +179,7 @@ class ProductView extends StatelessWidget {
   Container _leftPanel(ImatDataHandler iMat) {
     return Container(
       width: 300,
-      color: AppTheme.colorScheme.primary,
+      color: AppTheme.colorScheme.secondary,
       child: Scrollbar(thickness: 1,
         child: Padding(padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
           child:
