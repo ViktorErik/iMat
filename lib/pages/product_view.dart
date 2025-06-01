@@ -87,7 +87,7 @@ class ProductView extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _leftPanel(iMat),
+                // _leftPanel(iMat),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,7 +227,7 @@ class ProductView extends StatelessWidget {
                       (route) => false,
                     );
                   },
-                  child: Image.asset('assets/images/imat.png')
+                  child: Image.asset('assets/images/imat.png')                  
                 ),
               ),
               ElevatedButton(//favorit-knapp
@@ -295,15 +295,17 @@ class ProductView extends StatelessWidget {
     var iMat = Provider.of<ImatDataHandler>(context, listen: false);
     var details = iMat.getDetailWithId(product.productId);
     return Row(
+      
       children: [
         Expanded(
           flex: 6,
+          
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Tillbaka'),
+                child: Text('Tillbaka', style: TextStyle(fontSize: AppTheme.textTheme.headlineMedium!.fontSize),),
               ),
               Center(
                 //mainAxisAlignment: MainAxisAlignment.center,
@@ -313,6 +315,19 @@ class ProductView extends StatelessWidget {
                   padding: EdgeInsets.all(16), // Padding runt bilden
                   child: iMat.getImage(product),
                 ),
+              ),
+              
+              Center(
+              child: ElevatedButton(                
+                style: ElevatedButton.styleFrom(minimumSize:Size(0, 48), backgroundColor: iMat.isFavorite(product) ? const Color.fromARGB(255, 255, 177, 177) : Colors.white),
+                onPressed: () => {
+                  iMat.toggleFavorite(product),
+
+                },
+                
+                child: Text(iMat.isFavorite(product)? "Ta bort som favorit" : "Lägg till som favorit", style: TextStyle(color: Colors.black, fontSize: AppTheme.textTheme.headlineMedium!.fontSize
+                )),
+              ),
               ),
             ],
           ),
@@ -360,7 +375,7 @@ class ProductView extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(minimumSize:Size(0, 48), backgroundColor: Colors.white),
                     onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
-                    child:Text("Lägg till")
+                    child:Text("Lägg till i varukorg", style: TextStyle(fontSize: AppTheme.textTheme.headlineMedium!.fontSize),)
 
                   ),
               ],

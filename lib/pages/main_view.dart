@@ -244,7 +244,7 @@ class MainView extends StatelessWidget {
                       (route) => false,
                     );
                   },
-                  child: Image.asset('assets/images/imat.png')
+                  child: Image.asset('assets/images/imat.png',)
                 ),
               ),
               //Image.asset('assets/images/imat.png'),
