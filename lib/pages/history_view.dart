@@ -110,6 +110,7 @@ class _HistoryViewState extends State<HistoryView> {
                       MaterialPageRoute(builder: (context) => MainView()),
                       (route) => false,
                     );
+                    iMat.selectAllProducts();
                   },
                   child: Image.asset('assets/images/imat.png')
                 ),

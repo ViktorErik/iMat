@@ -257,6 +257,7 @@ class MainView extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => MainView()),
                       (route) => false,
                     );
+                    iMat.selectAllProducts();
                   },
 
                   child: Image.asset('assets/images/imat.png',)

@@ -1,6 +1,5 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/product.dart';
-import 'package:api_test/model/imat/product_detail.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat/util/functions.dart';
 import 'package:api_test/model/imat_data_handler.dart';
@@ -10,14 +9,12 @@ import 'package:api_test/pages/main_view.dart';
 import 'package:api_test/widgets/buy_button.dart';
 import 'package:api_test/widgets/cart_view.dart';
 import 'package:api_test/widgets/minus_button.dart';
-import 'package:api_test/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/category_widget.dart';
-import '../widgets/checkout_wizard.dart';
-
 class SearchWidget extends StatefulWidget{
+  const SearchWidget({super.key});
+
   @override
   _SearchWidgetState createState() => _SearchWidgetState();
 }
@@ -90,7 +87,7 @@ class ProductView extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // _leftPanel(iMat),
+                _leftPanel(iMat),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +102,7 @@ class ProductView extends StatelessWidget {
                         ),
                       ),*/
                       SizedBox(height: AppTheme.paddingTiny),
-                      Container(
+                      SizedBox(
                         //width: 580,
                         height: 593,
                         child: _centerStage(context, products),
@@ -114,10 +111,10 @@ class ProductView extends StatelessWidget {
                     ]
                   )
                 ),
-                Container(
+                SizedBox(
                   width: 300,
                   //color: Colors.blueGrey,
-                  child: _shoppingCart(iMat, context),
+                  child: _shoppingCart(iMat),
                 ),
               ],
             ),
@@ -127,49 +124,18 @@ class ProductView extends StatelessWidget {
     );
   }
 
-  Widget _shoppingCart(ImatDataHandler iMat, BuildContext context) {
-    return Container(
-      color: const Color.fromARGB(100, 205, 195, 183),
-      child: Column(
+  Widget _shoppingCart(ImatDataHandler iMat) {
+    return Container(color: Color.fromARGB(100, 205, 195, 183),
+      child:
+        Column(
         children: [
-          Text(
-            'Kundvagn',
-            style: AppTheme.textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 8),
-          Expanded( // Gör CartView flexibel så den tar all tillgänglig plats
-            child: CartView(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: SizedBox(
-              width: double.infinity, // Tar hela bredden
-              height: 54, // Gör knappen större
-              child: ElevatedButton(
-                onPressed: () {
-                  if (iMat.getShoppingCart().items.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Lägg till varor i kundvagnen för att betala!")),
-                    );
-                    return;
-                  }
-
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.white,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                    ),
-                    builder: (_) => ChangeNotifierProvider.value(
-                      value: iMat,
-                      child: const CheckoutWizard(),
-                    ),
-                  );
-                },
-                child: Text('Köp!', style: AppTheme.textTheme.titleMedium,),
-              ),
-            ),
+          Text(style:AppTheme.textTheme.headlineMedium,'Kundvagn'),
+          SizedBox(height: 400, child: CartView()),
+          ElevatedButton(
+            onPressed: () {
+              iMat.placeOrder();
+            },
+            child: Text('Köp!'),
           ),
         ],
       ),
@@ -179,33 +145,64 @@ class ProductView extends StatelessWidget {
   Container _leftPanel(ImatDataHandler iMat) {
     return Container(
       width: 300,
-      color: AppTheme.colorScheme.secondary,
-      child: Scrollbar(thickness: 1,
-        child: Padding(padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
-          child:
-          ListView(
-            children: [
-              SizedBox(height: AppTheme.paddingSmall),
-              SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "VISA ALLT",
-                subCategories: [],onTextTap: iMat.selectAllProducts,),
-              SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "DRINKS",
-                subCategories: [ProductCategory.COLD_DRINKS, ProductCategory.HOT_DRINKS,],),
-              SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "FRUIT",
-                subCategories: [ProductCategory.FRUIT, ProductCategory.CITRUS_FRUIT, ProductCategory.EXOTIC_FRUIT, ProductCategory.BERRY, ProductCategory.MELONS],),
-              SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "VEGETABLES",
-                subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],),
-              SizedBox(height: AppTheme.paddingSmall),
-              CategoryWidget(category: "MEAT",
-                subCategories: [ProductCategory.MEAT, ProductCategory.FISH],),
-
-
-            ],
+      color: AppTheme.colorScheme.primary,
+      child: Column(
+        children: [
+          SizedBox(height: AppTheme.paddingSmall),
+          SizedBox(
+            width: 132,
+            child: ElevatedButton(
+              onPressed: () {
+                iMat.selectAllProducts();
+              },
+              child: Text('Visa allt'),
+            ),
           ),
-        ),),
+          SizedBox(height: AppTheme.paddingSmall),
+          
+          SizedBox(height: AppTheme.paddingSmall),
+          SizedBox(
+            width: 132,
+            child: ElevatedButton(
+              onPressed: () {
+                var products = iMat.products;
+                iMat.selectSelection([
+                  products[4],
+                  products[45],
+                  products[68],
+                  products[102],
+                  products[110],
+                ]);
+              },
+              child: Text('Urval'),
+            ),
+          ),
+          SizedBox(height: AppTheme.paddingSmall),
+          SizedBox(
+            width: 132,
+            child: ElevatedButton(
+              onPressed: () {
+                //print('Frukt');
+                iMat.selectSelection(
+                  iMat.findProductsByCategory([ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT])
+                );
+              },
+              child: Text('Grönsaker'),
+            ),
+          ),
+          SizedBox(height: AppTheme.paddingSmall),
+          SizedBox(
+            width: 132,
+            child: ElevatedButton(
+              onPressed: () {
+                //print('Söktest');
+                iMat.selectSelection(iMat.findProducts('mj'));
+              },
+              child: Text('Söktest'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -229,13 +226,11 @@ class ProductView extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => MainView()),
                       (route) => false,
                     );
+                    iMat.selectAllProducts();
                   },
-                  child: Image.asset('assets/images/imat.png')                  
+                  child: Image.asset('assets/images/imat.png')
                 ),
               ),
-              SizedBox(width: 185),
-              SearchWidget(),
-              SizedBox(width: AppTheme.paddingMedium),
               ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
@@ -266,6 +261,8 @@ class ProductView extends StatelessWidget {
                   ]
                 )
               ),
+              SizedBox(width: AppTheme.paddingMedium),
+              SearchWidget(),
             ],
           ),
   
@@ -299,17 +296,15 @@ class ProductView extends StatelessWidget {
     var iMat = Provider.of<ImatDataHandler>(context, listen: false);
     var details = iMat.getDetailWithId(product.productId);
     return Row(
-      
       children: [
         Expanded(
           flex: 6,
-          
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Tillbaka', style: TextStyle(fontSize: AppTheme.textTheme.headlineMedium!.fontSize),),
+                child: Text('Tillbaka'),
               ),
               Center(
                 //mainAxisAlignment: MainAxisAlignment.center,
@@ -319,19 +314,6 @@ class ProductView extends StatelessWidget {
                   padding: EdgeInsets.all(16), // Padding runt bilden
                   child: iMat.getImage(product),
                 ),
-              ),
-              
-              Center(
-              child: ElevatedButton(                
-                style: ElevatedButton.styleFrom(minimumSize:Size(0, 48), backgroundColor: iMat.isFavorite(product) ? const Color.fromARGB(255, 255, 177, 177) : Colors.white),
-                onPressed: () => {
-                  iMat.toggleFavorite(product),
-
-                },
-                
-                child: Text(iMat.isFavorite(product)? "Ta bort som favorit" : "Lägg till som favorit", style: TextStyle(color: Colors.black, fontSize: AppTheme.textTheme.headlineMedium!.fontSize
-                )),
-              ),
               ),
             ],
           ),
@@ -379,7 +361,7 @@ class ProductView extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(minimumSize:Size(0, 48), backgroundColor: Colors.white),
                     onPressed: () => iMat.shoppingCartAdd(ShoppingItem(product)),
-                    child:Text("Lägg till i varukorg", style: TextStyle(fontSize: AppTheme.textTheme.headlineMedium!.fontSize),)
+                    child:Text("Lägg till")
 
                   ),
               ],
