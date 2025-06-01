@@ -162,36 +162,32 @@ class MainView extends StatelessWidget {
     return Container(
       width: 300,
       color: AppTheme.colorScheme.primary,
-      child: Column(
-        children: [
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                iMat.selectAllProducts();
-              },
-              child: Text('Visa allt'),
-            ),
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          
-          SizedBox(height: AppTheme.paddingSmall),
-            CategoryWidget(category: "DRINKS", 
-            subCategories: [ProductCategory.COLD_DRINKS, ProductCategory.HOT_DRINKS,],),
-          SizedBox(height: AppTheme.paddingSmall),
-            CategoryWidget(category: "FRUIT", 
-            subCategories: [ProductCategory.FRUIT, ProductCategory.CITRUS_FRUIT, ProductCategory.EXOTIC_FRUIT, ProductCategory.BERRY, ProductCategory.MELONS],),
-          SizedBox(height: AppTheme.paddingSmall),
-            CategoryWidget(category: "VEGETABLES", 
-            subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],),
-          SizedBox(height: AppTheme.paddingSmall),
-            CategoryWidget(category: "MEAT", 
-            subCategories: [ProductCategory.MEAT, ProductCategory.FISH],),
+      child: Scrollbar(thickness: 1,
+        child: Padding(padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+        child:
+          ListView(
+          children: [
+            SizedBox(height: AppTheme.paddingSmall),
+            SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "VISA ALLT", 
+              subCategories: [],onTextTap: iMat.selectAllProducts,),
+            SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "DRINKS", 
+              subCategories: [ProductCategory.COLD_DRINKS, ProductCategory.HOT_DRINKS,],),
+            SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "FRUIT", 
+              subCategories: [ProductCategory.FRUIT, ProductCategory.CITRUS_FRUIT, ProductCategory.EXOTIC_FRUIT, ProductCategory.BERRY, ProductCategory.MELONS],),
+            SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "VEGETABLES", 
+              subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],),
+            SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "MEAT", 
+              subCategories: [ProductCategory.MEAT, ProductCategory.FISH],),
+              
             
-          
-        ],
-      ),
+          ],
+        ),
+      ),),
     );
   }
 

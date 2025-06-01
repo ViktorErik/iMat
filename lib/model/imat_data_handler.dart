@@ -67,6 +67,8 @@ class ImatDataHandler extends ChangeNotifier {
 
   String translateCategory(String cat) {
   switch (cat) {
+    case'VISA ALLT':
+    return "Visa allt";
     case 'DRINKS':
       return 'Drycker';
     case 'VEGETABLES':
