@@ -234,6 +234,8 @@ class ProductView extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 220),
+              SearchWidget(),
+              SizedBox(width: AppTheme.paddingMedium),
               ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
@@ -264,8 +266,6 @@ class ProductView extends StatelessWidget {
                   ]
                 )
               ),
-              SizedBox(width: AppTheme.paddingMedium),
-              SearchWidget(),
             ],
           ),
   

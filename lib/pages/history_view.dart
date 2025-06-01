@@ -93,6 +93,8 @@ class _HistoryViewState extends State<HistoryView> {
               ),
               SizedBox(width: 220),
               //Image.asset('assets/images/imat.png'),
+              SearchWidget(controller: searchController),
+              SizedBox(width: AppTheme.paddingMedium),
               ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
@@ -128,8 +130,6 @@ class _HistoryViewState extends State<HistoryView> {
                   ]
                 )
               ),
-              SizedBox(width: AppTheme.paddingMedium),
-              SearchWidget(controller: searchController,),
             ],
           ),
   

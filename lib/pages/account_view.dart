@@ -74,6 +74,8 @@ Widget build(BuildContext context) {
                 ),
               ),
               SizedBox(width: 220),
+              SearchWidget(controller: searchController),
+              SizedBox(width: AppTheme.paddingMedium),
               //Image.asset('assets/images/imat.png'),
               ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
@@ -105,8 +107,6 @@ Widget build(BuildContext context) {
                   ]
                 )
               ),
-              SizedBox(width: AppTheme.paddingMedium),
-              SearchWidget(controller: searchController,),
             ],
           ),
   
