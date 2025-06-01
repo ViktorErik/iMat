@@ -9,9 +9,11 @@ import 'package:provider/provider.dart';
 
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController controller;
     return Scaffold(
       body: SingleChildScrollView(
         child:
@@ -36,6 +38,7 @@ class AccountView extends StatelessWidget {
 
   Widget _header(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
+    final searchController = TextEditingController();
     return Container(
       height: 80,
       color: AppTheme.colorScheme.primary,
@@ -91,7 +94,7 @@ class AccountView extends StatelessWidget {
                 )
               ),
               SizedBox(width: AppTheme.paddingMedium),
-              SearchWidget(),
+              SearchWidget(controller: searchController,),
             ],
           ),
   
