@@ -88,6 +88,7 @@ class _HistoryViewState extends State<HistoryView> {
                   child: Image.asset('assets/images/imat.png')
                 ),
               ),
+              SizedBox(width: 220),
               //Image.asset('assets/images/imat.png'),
               ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),

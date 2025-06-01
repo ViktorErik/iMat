@@ -123,40 +123,54 @@ class MainView extends StatelessWidget {
   }
 
   Widget _shoppingCart(ImatDataHandler iMat, BuildContext context) {
-    return Container(color: Color.fromARGB(100, 205, 195, 183),
-      child:
-        Column(
+    return Container(
+      color: const Color.fromARGB(100, 205, 195, 183),
+      child: Column(
         children: [
-          Text(style:AppTheme.textTheme.headlineMedium,'Kundvagn'),
-          Container(height: 400, child: CartView()),
-          ElevatedButton(
-            onPressed: () {
-              if (iMat.getShoppingCart().items.isEmpty){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Lägg till varor i kundvagnen för att betala!")),
-                );
-                return;
-              }
+          Text(
+            'Kundvagn',
+            style: AppTheme.textTheme.headlineMedium,
+          ),
+          const SizedBox(height: 8),
+          Expanded( // Gör CartView flexibel så den tar all tillgänglig plats
+            child: CartView(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SizedBox(
+              width: double.infinity, // Tar hela bredden
+              height: 54, // Gör knappen större
+              child: ElevatedButton(
+                onPressed: () {
+                  if (iMat.getShoppingCart().items.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Lägg till varor i kundvagnen för att betala!")),
+                    );
+                    return;
+                  }
 
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                ),
-                builder: (_) => ChangeNotifierProvider.value(
-                  value: iMat,
-                  child: const CheckoutWizard(),
-                ),
-              );
-            },
-            child: Text('Köp!'),
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                    ),
+                    builder: (_) => ChangeNotifierProvider.value(
+                      value: iMat,
+                      child: const CheckoutWizard(),
+                    ),
+                  );
+                },
+                child: Text('Köp!', style: AppTheme.textTheme.titleMedium,),
+              ),
+            ),
           ),
         ],
       ),
     );
   }
+
 
   Container _leftPanel(ImatDataHandler iMat) {
     return Container(

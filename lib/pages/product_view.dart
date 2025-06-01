@@ -14,6 +14,9 @@ import 'package:api_test/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/category_widget.dart';
+import '../widgets/checkout_wizard.dart';
+
 class SearchWidget extends StatefulWidget{
   @override
   _SearchWidgetState createState() => _SearchWidgetState();
@@ -114,7 +117,7 @@ class ProductView extends StatelessWidget {
                 Container(
                   width: 300,
                   //color: Colors.blueGrey,
-                  child: _shoppingCart(iMat),
+                  child: _shoppingCart(iMat, context),
                 ),
               ],
             ),
@@ -124,18 +127,49 @@ class ProductView extends StatelessWidget {
     );
   }
 
-  Widget _shoppingCart(ImatDataHandler iMat) {
-    return Container(color: Color.fromARGB(100, 205, 195, 183),
-      child:
-        Column(
+  Widget _shoppingCart(ImatDataHandler iMat, BuildContext context) {
+    return Container(
+      color: const Color.fromARGB(100, 205, 195, 183),
+      child: Column(
         children: [
-          Text(style:AppTheme.textTheme.headlineMedium,'Kundvagn'),
-          Container(height: 400, child: CartView()),
-          ElevatedButton(
-            onPressed: () {
-              iMat.placeOrder();
-            },
-            child: Text('Köp!'),
+          Text(
+            'Kundvagn',
+            style: AppTheme.textTheme.headlineMedium,
+          ),
+          const SizedBox(height: 8),
+          Expanded( // Gör CartView flexibel så den tar all tillgänglig plats
+            child: CartView(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SizedBox(
+              width: double.infinity, // Tar hela bredden
+              height: 54, // Gör knappen större
+              child: ElevatedButton(
+                onPressed: () {
+                  if (iMat.getShoppingCart().items.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Lägg till varor i kundvagnen för att betala!")),
+                    );
+                    return;
+                  }
+
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                    ),
+                    builder: (_) => ChangeNotifierProvider.value(
+                      value: iMat,
+                      child: const CheckoutWizard(),
+                    ),
+                  );
+                },
+                child: Text('Köp!', style: AppTheme.textTheme.titleMedium,),
+              ),
+            ),
           ),
         ],
       ),
@@ -146,63 +180,32 @@ class ProductView extends StatelessWidget {
     return Container(
       width: 300,
       color: AppTheme.colorScheme.primary,
-      child: Column(
-        children: [
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                iMat.selectAllProducts();
-              },
-              child: Text('Visa allt'),
-            ),
+      child: Scrollbar(thickness: 1,
+        child: Padding(padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
+          child:
+          ListView(
+            children: [
+              SizedBox(height: AppTheme.paddingSmall),
+              SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "VISA ALLT",
+                subCategories: [],onTextTap: iMat.selectAllProducts,),
+              SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "DRINKS",
+                subCategories: [ProductCategory.COLD_DRINKS, ProductCategory.HOT_DRINKS,],),
+              SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "FRUIT",
+                subCategories: [ProductCategory.FRUIT, ProductCategory.CITRUS_FRUIT, ProductCategory.EXOTIC_FRUIT, ProductCategory.BERRY, ProductCategory.MELONS],),
+              SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "VEGETABLES",
+                subCategories: [ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT],),
+              SizedBox(height: AppTheme.paddingSmall),
+              CategoryWidget(category: "MEAT",
+                subCategories: [ProductCategory.MEAT, ProductCategory.FISH],),
+
+
+            ],
           ),
-          SizedBox(height: AppTheme.paddingSmall),
-          
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                var products = iMat.products;
-                iMat.selectSelection([
-                  products[4],
-                  products[45],
-                  products[68],
-                  products[102],
-                  products[110],
-                ]);
-              },
-              child: Text('Urval'),
-            ),
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                //print('Frukt');
-                iMat.selectSelection(
-                  iMat.findProductsByCategory([ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD, ProductCategory.VEGETABLE_FRUIT])
-                );
-              },
-              child: Text('Grönsaker'),
-            ),
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                //print('Söktest');
-                iMat.selectSelection(iMat.findProducts('mj'));
-              },
-              child: Text('Söktest'),
-            ),
-          ),
-        ],
-      ),
+        ),),
     );
   }
 
@@ -230,6 +233,7 @@ class ProductView extends StatelessWidget {
                   child: Image.asset('assets/images/imat.png')
                 ),
               ),
+              SizedBox(width: 220),
               ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
