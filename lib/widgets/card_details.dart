@@ -3,6 +3,8 @@ import 'package:api_test/model/imat_data_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../app_theme.dart';
+
 // Simple widget to edit card information.
 // It's probably better to use Form
 class CardDetails extends StatefulWidget {
