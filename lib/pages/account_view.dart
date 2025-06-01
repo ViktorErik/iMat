@@ -41,7 +41,7 @@ class AccountView extends StatelessWidget {
                 
                 child: Row(
                   children: [
-                    Text("Tillbaka", style: AppTheme.textTheme.headlineMedium, textAlign: TextAlign.center,),
+                    Text("Tillbaka", style: AppTheme.textTheme.headlineSmall, textAlign: TextAlign.center,),
                   ]
                 )
               )),
@@ -149,7 +149,7 @@ class AccountView extends StatelessWidget {
                   ]
                 )
               ),
-              SizedBox(width: AppTheme.paddingSmall,)
+              SizedBox(width: AppTheme.paddingHuge+24,)
             ],
           ),
         ],

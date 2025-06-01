@@ -285,7 +285,7 @@ class ProductView extends StatelessWidget {
                   ]
                 )
               ),
-              SizedBox(width: AppTheme.paddingSmall,)
+              SizedBox(width: AppTheme.paddingHuge+24,)
             ],
           ),
         ],

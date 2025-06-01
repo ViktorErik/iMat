@@ -172,7 +172,7 @@ class _HistoryViewState extends State<HistoryView> {
                   ]
                 )
               ),
-              SizedBox(width: AppTheme.paddingSmall,)
+              SizedBox(width: AppTheme.paddingHuge+24,)
             ],
           ),
         ],
