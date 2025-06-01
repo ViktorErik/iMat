@@ -11,9 +11,8 @@ import 'package:provider/provider.dart';
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
   
-
-@override
-Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
   return Scaffold(
     body: Column(
       children: [
@@ -28,6 +27,24 @@ Widget build(BuildContext context) {
                     padding: const EdgeInsets.all(AppTheme.paddingMedium),
                     child: Column(
                       children: [
+                            Align(alignment: Alignment.centerLeft,
+                              child: ElevatedButton( //Tillbaka knapp
+              style: ElevatedButton.styleFrom(fixedSize: Size(135,50),
+              backgroundColor: const Color.fromARGB(255, 235, 232, 232)),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainView()),
+                      (route) => false,
+                    );
+                },
+                
+                child: Row(
+                  children: [
+                    Text("Tillbaka", style: AppTheme.textTheme.headlineMedium, textAlign: TextAlign.center,),
+                  ]
+                )
+              )),
                         Text(style: AppTheme.textTheme.headlineLarge, "Profil"),
                         Text(
                           style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 77, 76, 76)),
@@ -47,6 +64,7 @@ Widget build(BuildContext context) {
     ),
   );
 }
+
   Widget _header(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
     final searchController = TextEditingController();
@@ -77,10 +95,15 @@ Widget build(BuildContext context) {
               SearchWidget(controller: searchController),
               SizedBox(width: AppTheme.paddingMedium),
               //Image.asset('assets/images/imat.png'),
-              ElevatedButton(//favorit-knapp
+                 ElevatedButton(//favorit-knapp
               style: ElevatedButton.styleFrom(minimumSize: Size(200,54),
               backgroundColor: Colors.white),
                 onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainView()),
+                      (route) => false,
+                    );
                   //print('Favoriter');
                   iMat.selectFavorites();
                 },
@@ -149,6 +172,8 @@ Widget build(BuildContext context) {
             SizedBox(height: 40)
       ],
     );
+
+
   }
   void _showAccount(context) {
     Navigator.push(
@@ -160,7 +185,12 @@ Widget build(BuildContext context) {
   void _showHistory(context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => HistoryView()),
+      MaterialPageRoute(builder: (context) => HistoryView())
     );
   }
+
+
+  
+
+
 }
